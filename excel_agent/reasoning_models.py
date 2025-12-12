@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import os
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any, Literal, overload
@@ -314,6 +315,8 @@ def get_model_for_config(model_string: str, **kwargs) -> Model | str:
     Get the appropriate model for a configuration string.
 
     For OpenRouter reasoning models, returns an OpenRouterReasoningModel.
+    For GLM models, returns a CustomOpenAIModel.
+    For custom models, returns a CustomOpenAIModel.
     For other models, returns the string to let pydantic-ai handle it.
 
     Args:
@@ -323,8 +326,22 @@ def get_model_for_config(model_string: str, **kwargs) -> Model | str:
     Returns:
         Either a Model instance or the original string
     """
+    # Handle OpenRouter reasoning models
     if needs_reasoning_support(model_string):
         model_name = model_string.split(":", 1)[1]
         return create_openrouter_model(model_name, **kwargs)
+    
+    # Handle GLM model
+    if model_string == "glm":
+        from .custom_models import create_glm_model
+        api_key = kwargs.get("api_key") or os.getenv("GLM_API_KEY")
+        if not api_key:
+            raise ValueError("GLM_API_KEY environment variable must be set for GLM model")
+        return create_glm_model(api_key)
+    
+    # Handle custom models
+    if model_string.startswith("custom:"):
+        from .custom_models import create_model_from_string
+        return create_model_from_string(model_string, **kwargs)
 
     return model_string

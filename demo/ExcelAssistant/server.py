@@ -203,5 +203,38 @@ async def health():
     return {"status": "ok"}
 
 
+# Serve frontend files
+@app.get("/{full_path:path}")
+async def serve_frontend(full_path: str):
+    """Serve the frontend application."""
+    frontend_dir = Path(__file__).parent / "dist"
+    
+    # Default to index.html for root path
+    if full_path == "" or full_path == "/":
+        full_path = "index.html"
+    
+    file_path = frontend_dir / full_path
+    
+    # If file doesn't exist, serve index.html for SPA routing
+    if not file_path.exists() or file_path.is_dir():
+        file_path = frontend_dir / "index.html"
+    
+    if not file_path.exists():
+        raise HTTPException(status_code=404, detail="Frontend file not found")
+    
+    # Determine media type
+    if file_path.suffix == ".js":
+        media_type = "application/javascript"
+    elif file_path.suffix == ".css":
+        media_type = "text/css"
+    elif file_path.suffix == ".html":
+        media_type = "text/html"
+    else:
+        media_type = "text/plain"
+    
+    return FileResponse(file_path, media_type=media_type)
+
+
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
