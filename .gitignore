@@ -9,4 +9,4 @@ excel_agent.egg-info
 .ruff_cache/
 .pytest_cache/
 
-eval_outputs/
+eval_outputs/excel_env/
