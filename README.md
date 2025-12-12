@@ -9,14 +9,13 @@ This repo consists of two main parts: an Excel MCP server (`excel_mcp`) and an E
 ### Excel Assistant
 See `demo/ExcelAssistant` for an AI Excel assistant in web application form.
 
-https://github.com/user-attachments/assets/4a5894d0-00ef-4eaf-ab11-9e6ea082e298
-
+https://github.com/user-attachments/assets/18b6b8b5-0943-4c5b-816b-587f1083311d
 
 
 ### Slack Workflow
 See `demo/SlackExcelWorkflow` to make a Slack bot that assists with your Excel work.
 
-https://github.com/user-attachments/assets/192b952e-d7c5-4d30-968f-f9583caea84e
+https://github.com/user-attachments/assets/40611a73-3d4b-4fd2-8626-eb0c6ee8d3c5
 
 
 ## Model Performance
