@@ -331,6 +331,11 @@ def get_model_for_config(model_string: str, **kwargs) -> Model | str:
         model_name = model_string.split(":", 1)[1]
         return create_openrouter_model(model_name, **kwargs)
     
+    # Handle OpenRouter models
+    if model_string.startswith("openrouter:"):
+        model_name = model_string.split(":", 1)[1]
+        return create_openrouter_model(model_name, **kwargs)
+    
     # Handle GLM model
     if model_string == "glm":
         from .custom_models import create_glm_model

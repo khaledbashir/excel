@@ -199,7 +199,7 @@ def create_glm_model(api_key: str) -> CustomOpenAIModel:
     """
     return create_custom_model(
         model_name='glm-4.6',
-        base_url='https://api.z.ai/api/paas/v4',
+        base_url='https://api.z.ai/api/coding/paas/v4',
         api_key=api_key
     )
 
